@@ -8,8 +8,8 @@ autoinstall:
     password: "$6$rounds=4096$0zoKS4v292omAnO9$gopXshVHItelQVMlda2weV7vqUWb/e84il92niwka4hxD9rK66yclizyF.S5RveRAznhDgsnFLmvmdMrFzcay/"
   locale: fr_CH.UTF-8
   keyboard:
-    layout: fr
-    variant: ch
+    layout: ch
+    variant: fr
   ssh:
     install-server: true
     allow-pw: true
