@@ -1,43 +1,53 @@
 #cloud-config
 autoinstall:
   version: 1
-  identity:
-    hostname: kiosk
-    username: brave-penguin
-    # mkpasswd --method=SHA-512 --rounds=4096
-    password: "$6$rounds=4096$0zoKS4v292omAnO9$gopXshVHItelQVMlda2weV7vqUWb/e84il92niwka4hxD9rK66yclizyF.S5RveRAznhDgsnFLmvmdMrFzcay/"
+  timezone: Europe/Zurich
   locale: fr_CH.UTF-8
   keyboard:
     layout: ch
     variant: fr
   ssh:
     install-server: true
-    allow-pw: true
-  snaps:
-    - name: docker
-      channel: stable
-      classic: true
+    allow-pw: false
   packages:
+    - git
+    - vim
     - xorg
     - openbox
     - wget
+    - curl
     - gdm3
-    - vim
+  drivers:
+    install: true
   late-commands:
+    - curtin in-target --target=/target -- sh -c "echo 'kiosk' > /etc/hostname"
     - curtin in-target --target=/target -- sh -c "systemctl stop apt-daily-upgrade.timer apt-daily.timer"
     - curtin in-target --target=/target -- sh -c "systemctl disable apt-daily-upgrade.timer apt-daily.timer"
     - curtin in-target --target=/target -- sh -c "apt-get remove -y unattended-upgrades"
     - curtin in-target --target=/target -- sh -c "sed -i 's/^Prompt=.*$/Prompt=never/' /etc/update-manager/release-upgrades"
-    - curtin in-target --target=/target -- sh -c "sed -i 's/^#PasswordAuthentication yes/PasswordAuthentication yes/' /etc/ssh/sshd_config"
-    - curtin in-target --target=/target -- systemctl restart ssh
+    - curtin in-target -- curl -o /tmp/after-install.sh https://raw.githubusercontent.com/YungBricoCoop/auto-install/refs/heads/main/kiosk/after-install.sh
+    - curtin in-target -- /bin/sh /tmp/after-install.sh
+
   storage:
     layout:
       name: direct
   user-data:
     users:
+      - name: brave-penguin
+        # admin : mkpasswd --method=SHA-512 --rounds=4096
+        passwd: "$6$rounds=4096$7EwaoN4kjCYkzsKn$49VEPURimHsjxh.Ou3dFg7XQ3aSL.wx3rxnyTDtRMzv5ZK1nqawfeVu/Nog/DJ40SBlu3tL728yAe08lKZA7w/"
+        lock_passwd: true
+        ssh_authorized_keys:
+          - ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIIOFMN3NFgLg7B1Ukc0nC5yiBpiEngga0i2HvT+aXP1P
+        gecos: "Brave Penguin"
+        groups: adm, cdrom, dip, lxd, plugdev, sudo
+        shell: /bin/bash
       - name: curious-otter
-        passwd: "$6$rounds=4096$tRDRD5D2KKPr2qEN$NmnjB4uKK5Ksq1e0cSQskbEo/t4pMMxkAW8VWjFDu8BxbPCzZUvwvBeb/34.GDq8r5d9.uGkgMJ2WFH70DMTk/"
-        lock-passwd: false
+        # admin : mkpasswd --method=SHA-512 --rounds=4096
+        passwd: "$6$rounds=4096$krHhj1llzRAPYQUy$yhd2yrWp3ux82T3X/N3Stiw3F5ld.jNVihGpv7OKAzbS3UBXqmlNsD/9PfhghRTYPPFVHAQl6526pgtxwsql6/"
+        lock_passwd: true
+        ssh_authorized_keys:
+          - ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIIOFMN3NFgLg7B1Ukc0nC5yiBpiEngga0i2HvT+aXP1P
         gecos: "Curious Otter"
         groups: kiosk, adm, cdrom, dip, lxd, plugdev, sudo
         shell: /bin/bash
