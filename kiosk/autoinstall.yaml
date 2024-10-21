@@ -28,7 +28,7 @@ autoinstall:
         passwd: "$6$rounds=4096$tRDRD5D2KKPr2qEN$NmnjB4uKK5Ksq1e0cSQskbEo/t4pMMxkAW8VWjFDu8BxbPCzZUvwvBeb/34.GDq8r5d9.uGkgMJ2WFH70DMTk/"
         lock-passwd: false
         gecos: "Curious Otter"
-        groups: [kiosk, adm, cdrom, dip, lxd, plugdev, sudo]
+        groups: kiosk, adm, cdrom, dip, lxd, plugdev, sudo
         shell: /bin/bash
   late-commands:
     - curtin in-target --target=/target -- sh -c "systemctl stop apt-daily-upgrade.timer apt-daily.timer"
