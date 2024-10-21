@@ -46,5 +46,5 @@ autoinstall:
         ssh_authorized_keys:
           - ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIIOFMN3NFgLg7B1Ukc0nC5yiBpiEngga0i2HvT+aXP1P
         gecos: "Curious Otter"
-        groups: kiosk, adm, cdrom, dip, lxd, plugdev, sudo
+        groups: kiosk, adm, cdrom, dip, lxd, plugdev, sudo, docker
         shell: /bin/bash
