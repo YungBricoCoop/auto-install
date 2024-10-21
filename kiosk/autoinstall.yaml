@@ -14,8 +14,7 @@ autoinstall:
     install-server: true
     allow-pw: true
   snaps:
-    install:
-      - name: docker
+    - name: docker
   packages:
     - xorg
     - openbox
