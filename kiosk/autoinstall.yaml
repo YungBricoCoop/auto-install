@@ -15,6 +15,8 @@ autoinstall:
     allow-pw: true
   snaps:
     - name: docker
+      channel: stable
+      classic: true
   packages:
     - xorg
     - openbox
