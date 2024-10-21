@@ -32,11 +32,11 @@ autoinstall:
   storage:
     layout:
       name: direct
-user-data:
-  users:
-    - name: curious-otter
-      passwd: "$6$rounds=4096$tRDRD5D2KKPr2qEN$NmnjB4uKK5Ksq1e0cSQskbEo/t4pMMxkAW8VWjFDu8BxbPCzZUvwvBeb/34.GDq8r5d9.uGkgMJ2WFH70DMTk/"
-      lock-passwd: false
-      gecos: "Curious Otter"
-      groups: kiosk, adm, cdrom, dip, lxd, plugdev, sudo
-      shell: /bin/bash
+  user-data:
+    users:
+      - name: curious-otter
+        passwd: "$6$rounds=4096$tRDRD5D2KKPr2qEN$NmnjB4uKK5Ksq1e0cSQskbEo/t4pMMxkAW8VWjFDu8BxbPCzZUvwvBeb/34.GDq8r5d9.uGkgMJ2WFH70DMTk/"
+        lock-passwd: false
+        gecos: "Curious Otter"
+        groups: kiosk, adm, cdrom, dip, lxd, plugdev, sudo
+        shell: /bin/bash
