@@ -1,0 +1,43 @@
+#cloud-config
+autoinstall:
+  version: 1
+  identity:
+    hostname: kiosk
+    username: brave-penguin
+    # mkpasswd --method=SHA-512 --rounds=4096
+    password: "$6$rounds=4096$0zoKS4v292omAnO9$gopXshVHItelQVMlda2weV7vqUWb/e84il92niwka4hxD9rK66yclizyF.S5RveRAznhDgsnFLmvmdMrFzcay/"
+  locale: fr_CH.UTF-8
+  keyboard:
+    layout: fr
+    variant: ch
+  ssh:
+    install-server: true
+    allow-pw: true
+  snaps:
+    install:
+      - name: docker
+  packages:
+    - xorg
+    - openbox
+    - wget
+    - gdm3
+    - vim
+  user-data:
+    users:
+      - name: curious-otter
+        passwd: "$6$rounds=4096$tRDRD5D2KKPr2qEN$NmnjB4uKK5Ksq1e0cSQskbEo/t4pMMxkAW8VWjFDu8BxbPCzZUvwvBeb/34.GDq8r5d9.uGkgMJ2WFH70DMTk/"
+        lock-passwd: false
+        gecos: "Curious Otter"
+        primary-group: kiosk
+        groups: adm, cdrom, dip, lxd, plugdev, sudo
+        shell: /bin/bash
+  late-commands:
+    - curtin in-target --target=/target -- sh -c "systemctl stop apt-daily-upgrade.timer apt-daily.timer"
+    - curtin in-target --target=/target -- sh -c "systemctl disable apt-daily-upgrade.timer apt-daily.timer"
+    - curtin in-target --target=/target -- sh -c "apt-get remove -y unattended-upgrades"
+    - curtin in-target --target=/target -- sh -c "sed -i 's/^Prompt=.*$/Prompt=never/' /etc/update-manager/release-upgrades"
+    - curtin in-target --target=/target -- sh -c "sed -i 's/^#PasswordAuthentication yes/PasswordAuthentication yes/' /etc/ssh/sshd_config"
+    - curtin in-target --target=/target -- systemctl restart ssh
+  storage:
+    layout:
+      name: direct
