@@ -23,6 +23,7 @@ autoinstall:
     - wget
     - curl
     - gdm3
+    - open-vm-tools-desktop
   drivers:
     install: true
   late-commands:
