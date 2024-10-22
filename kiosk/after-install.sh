@@ -33,6 +33,11 @@ sudo apt-get install -y docker-ce docker-ce-cli containerd.io docker-buildx-plug
 
 echo "Docker has been installed successfully."
 
+# Install chrome
+wget -P /tmp https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
+sudo apt install -y /tmp/google-chrome-stable_current_amd64.deb
+sudo apt --fix-broken install -y
+
 # Setup kiosk mode
 echo "Setting up kiosk mode..."
 sudo mkdir -p $ACCOUNT_SERVICE_BASE_PATH
