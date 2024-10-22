@@ -6,10 +6,6 @@ autoinstall:
   keyboard:
     layout: ch
     variant: fr
-  identity:
-    hostname: kiosk
-    username: brave-penguin
-    password: "$6$rounds=4096$7EwaoN4kjCYkzsKn$49VEPURimHsjxh.Ou3dFg7XQ3aSL.wx3rxnyTDtRMzv5ZK1nqawfeVu/Nog/DJ40SBlu3tL728yAe08lKZA7w/"
   ssh:
     install-server: true
     allow-pw: false
@@ -40,6 +36,15 @@ autoinstall:
       name: direct
   user-data:
     users:
+      - name: brave-penguin
+        # admin : mkpasswd --method=SHA-512 --rounds=4096
+        passwd: "$6$rounds=4096$7EwaoN4kjCYkzsKn$49VEPURimHsjxh.Ou3dFg7XQ3aSL.wx3rxnyTDtRMzv5ZK1nqawfeVu/Nog/DJ40SBlu3tL728yAe08lKZA7w/"
+        lock_passwd: false
+        ssh_authorized_keys:
+          - ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIIOFMN3NFgLg7B1Ukc0nC5yiBpiEngga0i2HvT+aXP1P
+        gecos: "Brave Penguin"
+        groups: adm, cdrom, dip, lxd, plugdev, sudo, docker
+        shell: /bin/bash
       - name: curious-otter
         # admin : mkpasswd --method=SHA-512 --rounds=4096
         passwd: "$6$rounds=4096$krHhj1llzRAPYQUy$yhd2yrWp3ux82T3X/N3Stiw3F5ld.jNVihGpv7OKAzbS3UBXqmlNsD/9PfhghRTYPPFVHAQl6526pgtxwsql6/"
@@ -47,5 +52,5 @@ autoinstall:
         ssh_authorized_keys:
           - ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIIOFMN3NFgLg7B1Ukc0nC5yiBpiEngga0i2HvT+aXP1P
         gecos: "Curious Otter"
-        groups: kiosk, adm, cdrom, dip, lxd, plugdev, sudo, docker
+        groups: kiosk
         shell: /bin/bash
