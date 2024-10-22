@@ -31,8 +31,8 @@ autoinstall:
     - curtin in-target --target=/target -- sh -c "systemctl disable apt-daily-upgrade.timer apt-daily.timer"
     - curtin in-target --target=/target -- sh -c "apt-get remove -y unattended-upgrades"
     - curtin in-target --target=/target -- sh -c "sed -i 's/^Prompt=.*$/Prompt=never/' /etc/update-manager/release-upgrades"
-    - curtin in-target -- curl -o /tmp/after-install.sh https://raw.githubusercontent.com/YungBricoCoop/auto-install/refs/heads/main/kiosk/after-install.sh
-    - curtin in-target -- /bin/sh /tmp/after-install.sh
+    - curtin in-target --target=/target -- sh -c "curl -o /usr/local/bin/setup-post-install.sh https://raw.githubusercontent.com/YungBricoCoop/auto-install/refs/heads/main/kiosk/setup-post-install.sh"
+    - curtin in-target --target=/target -- sh -c "/bin/bash /usr/local/bin/setup-post-install.sh"
 
   storage:
     layout:
