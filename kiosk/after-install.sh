@@ -1,5 +1,19 @@
 #!/bin/sh
 
+DEPLOYMENT_INFO_FILE="/etc/deployment-info.txt"
+DEPLOYMENT_TIME=$(date)
+
+KIOSK_USER="curious-otter"
+KIOSK_URL="https://help.ubuntu.com/"
+
+ACCOUNT_SERVICE_BASE_PATH="/var/lib/AccountsService/users"
+ACCOUNT_SERVICE_PATH="/var/lib/AccountsService/users/$KIOSK_USER"
+
+GDM_CUSTOM_PATH="/etc/gdm3/custom.conf"
+
+AUTOSTART_DIR_PATH="/home/$KIOSK_USER/.config/openbox"
+AUTOSTART_PATH="$AUTOSTART_DIR_PATH/autostart"
+
 # Install Docker
 sudo apt-get update
 sudo apt-get install -y ca-certificates curl
@@ -19,14 +33,32 @@ sudo apt-get install -y docker-ce docker-ce-cli containerd.io docker-buildx-plug
 
 echo "Docker has been installed successfully."
 
+# Setup kiosk mode
+echo "Setting up kiosk mode..."
+sudo mkdir -p $ACCOUNT_SERVICE_BASE_PATH
+sudo tee $ACCOUNT_SERVICE_PATH > /dev/null << EOF
+[User]
+XSession=openbox
+EOF
+
+sudo tee -a $GDM_CUSTOM_PATH > /dev/null << EOF
+[daemon]
+AutomaticLoginEnable = true
+AutomaticLogin = $KIOSK_USER
+EOF
+
+sudo -u $KIOSK_USER mkdir -p $AUTOSTART_DIR_PATH
+sudo -u $KIOSK_USER tee $AUTOSTART_PATH > /dev/null << EOF
+# Disable screen saver and power management
+xset s off
+xset s noblank
+xset -dpms
+
+# Start Google Chrome in kiosk mode
+google-chrome --no-first-run --kiosk --disable-restore-session-state '$KIOSK_URL' &
+EOF
 
 # Create deployment info file
-DEPLOYMENT_INFO_FILE="/etc/deployment-info.txt"
-
-DEPLOYMENT_TIME=$(date)
-
 echo "System deployed on: $DEPLOYMENT_TIME" | sudo tee $DEPLOYMENT_INFO_FILE > /dev/null
-
 sudo chmod 644 $DEPLOYMENT_INFO_FILE
-
 echo "Deployment info written to $DEPLOYMENT_INFO_FILE"
