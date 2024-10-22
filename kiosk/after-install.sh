@@ -33,7 +33,7 @@ sudo apt-get install -y docker-ce docker-ce-cli containerd.io docker-buildx-plug
 
 echo "Docker has been installed successfully."
 
-# Install chrome
+# Install Chrome
 wget -P /tmp https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
 sudo apt install -y /tmp/google-chrome-stable_current_amd64.deb
 sudo apt --fix-broken install -y
@@ -52,6 +52,13 @@ AutomaticLoginEnable = true
 AutomaticLogin = $KIOSK_USER
 EOF
 
+# Ensure home directory exists
+if [ ! -d "/home/$KIOSK_USER" ]; then
+    echo "Home directory for $KIOSK_USER not found. Creating it..."
+    sudo mkhomedir_helper $KIOSK_USER
+fi
+
+# Create Openbox folder and autostart file
 sudo -u $KIOSK_USER mkdir -p $AUTOSTART_DIR_PATH
 sudo -u $KIOSK_USER tee $AUTOSTART_PATH > /dev/null << EOF
 # Disable screen saver and power management
