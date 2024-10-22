@@ -109,3 +109,5 @@ else
 fi
 
 log_step "System deployed successfully on: $DEPLOYMENT_TIME"
+
+sudo reboot
