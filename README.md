@@ -4,7 +4,7 @@ A collection of `auto-install` scripts for **Ubuntu**, designed to automate vari
 
 ### 📁 Current Modes:
 
-- `Kiosk Mode`: A setup for turning Ubuntu into a locked-down, single-purpose system perfect for kiosk setups using tools like Openbox and Google Chrome in kiosk mode.
+- [Kiosk Mode](https://raw.githubusercontent.com/YungBricoCoop/auto-install/refs/heads/main/kiosk/autoinstall.yaml) : A setup for turning Ubuntu into a locked-down, single-purpose system perfect for kiosk setups using tools like Openbox and Google Chrome in kiosk mode.
 
 ### 📄 Handling Late-Commands
 
